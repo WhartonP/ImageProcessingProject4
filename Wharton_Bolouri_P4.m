@@ -7,7 +7,7 @@ imOrig = imread("Proj4.tif");
 figure; imshow(imOrig);
 
 FT = fftshift(fft2(double(imOrig)));
-FTView = log(1 + abs(FT));
+FTView = (1 + abs(FT));
 figure; plot(FTView);
 
 %for a butterworth filter
