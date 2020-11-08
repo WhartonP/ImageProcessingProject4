@@ -53,7 +53,7 @@ for i = 1:size(FT,1)
             end
         end
         if flag == true
-            FT(i,j) = ave;
+            FT(i,j) = 0;
         end
         flag = true;
     end

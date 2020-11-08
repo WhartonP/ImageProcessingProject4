@@ -17,7 +17,8 @@ ave = mean(mean(FT));
 
 % Finding Spikes
 temp = FT;
-spikes = 7;
+spikes = sum(isoutlier(max(log(1+abs(FT)))) == 1);
+
 indices = zeros(spikes,2);
 i = 1;
 while i < 8
@@ -34,10 +35,16 @@ while i < 8
     temp(row, col) = 0;
 end
 
+% Eliminating Zeros
+Z = find(~indices);
+[x,~] = ind2sub(size(indices),Z);
+indices(x,:) = [];
+
+% Extracting Pattern
 flag = true;
 for i = 1:size(FT,1)
     for j = 1:size(FT,2)
-        for k = 1:spikes
+        for k = 1:size(indices,1)
             if FT(i,j) == FT(indices(k,1), indices(k,2))
                 flag =false;
                 if FT(i,j) ~= FT(maxRow, maxCol)
@@ -47,7 +54,7 @@ for i = 1:size(FT,1)
             end
         end
         if flag == true
-            FT(i,j) = ave;
+            FT(i,j) = 0;
         end
         flag = true;
     end
