@@ -1,5 +1,6 @@
 %Main script to read the image in and filter out the periodic signal from
 %the image and then correct the non-uniform illumination 
+%By Peter Wharton & Farshad Bolouri
 clear; close all;
 
 fileName = input("Enter the name of the image with extention ex. Image.tif -> ", 's');
@@ -56,7 +57,6 @@ for i = 1:size(FT,1)
     end
 end
 
-% 
 % figure
 % imagesc(log(1+abs(FT)))
 % colorbar()
@@ -71,7 +71,7 @@ lightValue = mean(mean(imOrig));
 se = offsetstrel('ball',120,16,8);
 background = imopen(imOrig, se);
 imMinusBack = imOrig - background;
-finalBrightImg = imMinusBack + uint8(lightValue);
+finalBrightImg = imsharpen(imMinusBack + uint8(lightValue), 'Amount', .8);
 
 subplot(2, 2, 1); imshow(imOrig);
 title('Original Input Image');
